@@ -8,6 +8,7 @@ import random # Random is used to generate a random number in a range of 1to10
  
 dis = {} # dis is a empty dictionary which hold the score of each frame
 
+# This function runs for 10 times and generate score based on strike or spare
 def blowing():
     """This is the main funtion of the code which initally runs."""
     score = 0
