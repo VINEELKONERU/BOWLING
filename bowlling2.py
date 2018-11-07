@@ -99,7 +99,7 @@ def spare(score,frame):
 
 blowing()
 
-print('Your 10 frames score is: ')
+print('Your 10 frames scores are: ')
 for i in dis:
     print('+--------------+')
     print('|{:<9}|{:<4}|'.format(i,dis[i]))
