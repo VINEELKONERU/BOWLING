@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python
 
 """Bowlling2.py is a python code which calculates the score of a player in each frame of a match(10frames is considered as a single match)"""
@@ -9,37 +10,36 @@ import random # Random is used to generate a random number in a range of 1to10
 dis = {} # dis is a empty dictionary which hold the score of each frame
 
 # This function runs for 10 times and generate score based on strike or spare
+
 def blowing():
-    """This is the main funtion of the code which initally runs."""
     score = 0
     total_balls = 10
-    print('Please press "Enter" for each throw:')
-
+    print('Press enter to throw the ball')
     for frame in range(1,11):
         
         for throw in range(1,3):
-            chance = '1st' if throw == 1 else '2nd'
-            strike = input(chance+' throw in Frame'+str(frame)+': ')
-            sco = random.randint(0,total_balls)
-
-            if sco == 10:             
+            turn = '1st' if throw == 1 else '2nd'
+            strike = input(turn+ ' turn in frame'+str(frame)+': ')
+            sco = random.randint(1,total_balls)
+            if sco == 10:
+                
                 score += sco
-                print('Score in '+chance+' throw: ', sco)
                 print('It is a "Strike!"')
-                score = strike1(frame)
+                print('Score in '+turn+ ' throw '+ str(sco))
+                score = strike1(sco)
                 break
-            
             else:
                 score += sco
                 total_balls = total_balls - sco
-                print('Score in '+chance+ ' throw: ', sco)
+                print('Score is '+turn+ ' throw '+str(sco))
                 
+              
+        
         if score == 10:
             print('it is a "Spare!"')
-            score += sco
-            score = spare(score,frame)
-            print('You have scored: '+str(score)+' in frame '+str(frame))
-            print('='*30+'\n')
+            
+            score = spare(turn, score)
+            print('Score in frame '+str(frame)+' is '+str(score)+'\n')
             total_balls = 10
             
             dis['Frame'+str(frame)] = score
@@ -47,61 +47,83 @@ def blowing():
 
         else:
             total_balls = 10
-            print('You have scored: '+str(score)+' in frame '+str(frame))
-            print('='*30+'\n')
+            print('Score in frame '+str(frame)+' is '+str(score)+'\n')
             dis['Frame'+str(frame)] = score
             score = 0
+            
         
-def strike1(frame):
-    """If player got an "strike" this funtion will be called"""
-    intial_score = 10
+
+def strike1(sco):
+    intial_score = sco
     frame_score = 0
     total_balls = 10
     
+
     
-    for throw in range(1,3):
-        chance = '1st' if throw == 1 else '2nd'
-        strike = input(chance+' throw in Frame'+str(frame)+': ')
-        sco = random.randint(0,total_balls)
+    for through in range(1,3):
+        strike = input('Press enter to through a ball ')
+        sco = random.randint(1,total_balls)
+        turn = '1st' if through == 1 else '2nd'
         if sco == 10:
-            print('Score in '+chance+' throw: ', sco)
+            print('Score in '+turn+ ' throw '+ str(sco))
+            print('It is a "Strike!"')
             intial_score += sco
+            intial_score = strike1(intial_score)
             break
         else:
+            
             frame_score += sco
             total_balls = total_balls - sco
-            print('Score in '+chance+' throw: ', sco)
-    return intial_score+frame_score+frame_score
+            print('Score in '+turn+ ' throw '+ str(sco))
 
-def spare(score,frame):
-    
-    intial_score = 10
+
+    if frame_score == 10:
+        print('it is a "Spare!"')
+        intial_score = intial_score+frame_score+frame_score
+        intial_score = spare(turn, intial_score)
+        return intial_score
+    else:
+        return intial_score+frame_score+frame_score
+
+def spare(turn, score):
+    intial_score = score
     frame_score = 0
     first_strike_score = 0
     total_balls =10
     
-    strike = input('Throw in Frame'+str(frame)+': ')
-    sco = random.randint(0, total_balls)
+    strike = input('Press enter to through a ball ')
+    sco = random.randint(1,total_balls)
     
     first_strike_score += sco
     
     frame_score += sco
     if sco == 10:
-        print('Your spin score is ', sco)
+        print('Score in '+turn+ ' throw '+ str(sco))
+        print('it is a "Strike!"')
+        intial_score += sco
+        intial_score = strike1(intial_score)
         return intial_score+first_strike_score
     else:
-        print('First spin score is ', sco)
         total_balls = total_balls - sco
-        strike = input('Throw in Frame'+str(frame)+': ')
-        sco1 = random.randint(0, total_balls)
-        print('Second spin score is ', sco1)
+        strike = input('Press enter to through a ball ')
+        sco1 = random.randint(1,total_balls)
+        print('Score in '+turn+ ' throw '+ str(sco))
         frame_score += sco1
-        return intial_score+first_strike_score+frame_score
+        if frame_score == 10:
+             print('it is a "Spare!"')
+             intial_score = intial_score+first_strike_score+frame_score
+             intial_score = spare(turn, intial_score)
+             return intial_score
+        else:
+            return intial_score+first_strike_score+frame_score
+         
 
 blowing()
 
-print('Your 10 frames scores are: ')
+print('10 frames score is: ')
 for i in dis:
-    print('+--------------+')
-    print('|{:<9}|{:<4}|'.format(i,dis[i]))
-print('+--------------+')
+   fr = i.center(9)
+   sc = str(dis[i]).center(4)
+   print('+--------------+')
+   print('|%s|%s|'%(fr,sc))
+print('+--------------+')    
